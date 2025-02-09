@@ -11,7 +11,27 @@ Options:
    -o, --open          Open index.html after building
    -d, --date          Print current ISO 8601 date
    -i, --install       Install Python requirements
+   --hook             Install git pre-commit hook
 EOF
+}
+
+function install_hook {
+   echo "Installing pre-commit hook..."
+   cat > .git/hooks/pre-commit << 'EOF'
+#!/bin/bash
+
+echo "Running pre-commit build..."
+./scripts.sh --build
+
+if [ $? -ne 0 ]; then
+    echo "Build failed, commit aborted"
+    exit 1
+fi
+
+git add gen/*.html index.html feed.json
+EOF
+   chmod +x .git/hooks/pre-commit
+   echo "Hook installed"
 }
 
 function clean {
@@ -86,6 +106,10 @@ while [[ $# -gt 0 ]]; do
        -h|--help)
            show_help
            exit 0
+           ;;
+        --hook)
+           install_hook
+           shift
            ;;
        -b|--build)
            build

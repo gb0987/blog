@@ -1,4 +1,11 @@
 #!/bin/bash
 
-# Automatically build all static assets before committing.
-make all
+echo "Running pre-commit build..."
+./scripts.sh --build
+
+if [ $? -ne 0 ]; then
+    echo "Build failed, commit aborted"
+    exit 1
+fi
+
+git add gen/*.html index.html feed.json
