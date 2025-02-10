@@ -1,42 +1,18 @@
+"Deeply unattractive out of the box? Yes. Easy to customize? I hope so."
+
+So says the guy who I forked this repo from. Joke's on him, I think raw html looks good. All posts below are from him, I will delete them some time after they are no longer useful.
+
+Look into https://gwern.net/sidenote#tufte-css 
+
+
 # pandoc-blog
 
 This is a *very* basic Pandoc static site generator.
 
 I've avoided writing CSS beyond some very basic readability improvements/demonstrating that CSS can be added. The goal here is just to populate well-structured HTML documents and a generated JSON feed. [View a demo site.](http://lukasschwab.me/pandoc-blog/index.html)
 
-Deeply unattractive out of the box? Yes. Easy to customize? I hope so.
 
-## Requirements
 
-+ `pandoc`
-+ Python 3
-+ Python dependencies listed in `requirements.txt`. Install them with `make install`.
-
-## Usage
-
-1. Clone this repository.
-2. Write Pandoc-compatible Markdown files in `posts`. These should include YAML frontmatter for generating the index:
-    + `title`: a human-readable title for this post.
-    + `date`: an ISO 8601 date (`make date`).
-    + `abstract`: a summary you want to appear on the index. This can include valid Pandoc markdown.
-3. Run `make all` to build an HTMl file for each Markdown page and generate `index.html`.
-
-### Utilities
-
-+ `make requirements.txt`: install dependencies for `make_index.py`.
-+ `make hook`: configure a git hook to run `make all` before each commit (so each commit contains an up-to-date static site).
-
-## How it works
-
-`Makefile` is the most robust guide, but here's a high-level overview.
-
-1. `pandoc` transforms each Markdown post in `posts` into a static HTML file in `gen`. The HTML is structured using `templates/post.html` and styled with `styles/shared.css`.
-
-2. `make_index.py` reads the YAML frontmatter of every Markdown post in `posts` and transforms this into an intermediate Markdown document of headers and metadata, `index.md`.
-
-3. `pandoc` transforms `index.md` into `index.html`. Unlike the posts, this index file is structured using `templates/index.html` and it's styled with *both* `styles/shared.css` and `styles/index.css` (with the latter styles overriding the former.
-
-## Customization
 
 A general rule of thumb: changes to the HTML are predictable; changes to pre-`pandoc` Markdown are unpredictable. Markdown intermediates (like `make_index.py` uses for the time being) are antipatterns.
 

@@ -56,7 +56,7 @@ function build {
                   -o "gen/${filename}.html" \
                   --template templates/post.html \
                   --css="../styles/common.css" \
-                  --toc
+                  --toc 
        fi
    done
 
